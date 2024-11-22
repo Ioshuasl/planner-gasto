@@ -19,6 +19,9 @@ const Gasto = sequelize.define('Gasto', {
         key:'id'
     },
     allowNull: false
+  },
+  dataGasto:{
+    type: DataTypes.DATE
   }
 }, {
   tableName: 'gastos',  // Mapeia para a tabela 'gastos' no banco

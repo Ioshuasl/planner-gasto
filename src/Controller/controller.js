@@ -9,12 +9,24 @@ class Controller{
 
     //criar gasto
     async createGasto(nomeGasto,descricaoGasto,categoriaGasto_id){
-        const gasto = await Gasto.create(nomeGasto,descricaoGasto,categoriaGasto_id)
+
+        const hoje = new Date()
+        const dataGasto = new Date(`${(hoje.getFullYear())}-${hoje.getMonth() + 1}-${hoje.getDate()}`)
+        
+        const gasto = await Gasto.create(nomeGasto,descricaoGasto,categoriaGasto_id,dataGasto)
         return {message: "gasto criado com sucesso",gasto}
     }
     //visualizar gastos
     async findAllGastos(){
         const gastos = await Gasto.findAll()
+        return gastos
+    }
+
+    //visualizar gastos com determinada categoria
+    async findGastosByCategoriaId(categoriaGasto_id){
+        const gastos = await Gasto.findAll({
+            where:{categoriaGasto_id}
+        })
         return gastos
     }
 
@@ -69,3 +81,5 @@ class Controller{
         return {message:"Orçamento excluído com sucesso", orcamento}
     }
 }
+
+export default new Controller()
