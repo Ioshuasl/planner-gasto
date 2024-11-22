@@ -1,3 +1,5 @@
+import { Gasto } from "./gasto.js"
+
 export class GrupoGastos {
     constructor(titulo, valorDisponível){
         this.titulo = titulo
@@ -6,24 +8,14 @@ export class GrupoGastos {
         this.ValorSobra = valorDisponível
     }
 
-    gasto(nome,valor){
-        const gasto = {
-            nome: nome,
-            valor: valor
-        }
+    newGasto(nome,valor,classificacao){
+        const gasto = new Gasto(nome,valor,classificacao)
         this.ValorSobra = this.ValorSobra - valor
         this.gastosGrupo.push(gasto)
         return gasto
     }
 
     relatorioGastoGrupo(){
-        console.log(`Relatório dos gastos do grupo`,this.titulo)
-        console.log("================================================================")
-        this.gastosGrupo.forEach((gasto,index) =>{
-            console.log("Motivo do gasto:",gasto.nome)
-            console.log("Índice:",index)
-            console.log("Valor gasto:",gasto.valor)
-            console.log("================================================================")
-        })
+        return this.gastosGrupo
     }
 }

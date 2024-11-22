@@ -1,4 +1,5 @@
 import { GrupoGastos } from "./grupoGastos.js";
+import { Gasto } from "./gasto.js";
 
 export class Gerenciador{
     constructor(valorRecebido){
@@ -8,24 +9,19 @@ export class Gerenciador{
         this.valorSobra = valorRecebido
     }
 
-    novoGasto(nome,valorGasto){
-        const gasto = {
-            nome: nome,
-            valor: valorGasto
+    novoGasto(nome,valorGasto,classificacao){
+        if (classificacao === null) {
+            const gasto = new Gasto(nome,valorGasto,null)
+            return gasto
+        } else {
+            let indexGrupo = this.grupos.findIndex(grupo => grupo.titulo === classificacao)
+            const gasto = this.grupos[indexGrupo].newGasto(nome,valorGasto,classificacao)
+            return gasto
         }
-        this.valorSobra = this.valorSobra - valorGasto
-        this.relatorioGasto.push(gasto)
-        return gasto
     }
 
     mostrarRelatorioGastos(){
-        const relatorio = this.relatorioGasto.forEach((gasto) => {
-            console.log("Motivo do gasto:",gasto.nome)
-            console.log("Valor gasto:",gasto.valor)
-            console.log("================================================================")
-        })
-
-        return relatorio,this.valorSobra
+        return this.relatorioGasto
     }
 
     criarGrupo(titulo, valorDisponível){
@@ -34,24 +30,8 @@ export class Gerenciador{
         return {message: "Adicionado novo grupo",grupo}
     }
 
-    criarGastoGrupo(titulo,nome,valor){
-        let indexGrupo = this.grupos.findIndex(grupo => grupo.titulo = titulo)
-
-        const gasto = this.grupos[indexGrupo].gasto(nome,valor)
-
-        this.valorSobra = this.valorSobra - valor
-        this.relatorioGasto.push(gasto)
-
-        return gasto
-    }
-
     mostrarGrupos(){
-        return this.grupos.forEach((grupo,index) => {
-            console.log("Nome do grupo:",grupo.titulo)
-            console.log("Índce:",index)
-            console.log("Valor disponível:",grupo.valorDisponível)
-            console.log("================================================================") 
-        })
+        return this.grupos
     }
 
     novoLucro(valor){
